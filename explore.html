@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Street Foods - Interactive Map & Chatbot</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="explore-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="index.html">Food Trails Of Bharat</a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="#" class="nav-link active">Explore</a>
+                    <a href="#" class="nav-link">About Us</a>
+                    <a href="#" class="nav-link">Recipes</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-icon search-toggle" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <button class="btn-icon dark-mode-toggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                   
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="explore-main">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-bar-container">
+                <input type="text" id="vendorSearch" placeholder="Search for food stalls, restaurants, or dishes...">
+                <button class="btn-search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Interactive Map -->
+            <section class="map-section">
+                <h2 class="section-title">Explore on Map</h2>
+                <div id="vendorMap"></div>
+            </section>
+
+            <!-- Vendor Listings -->
+            <section class="vendor-listings">
+                <!-- What's Trending Carousel -->
+                <div class="trending-dishes-section">
+                    <h2 class="section-title">What's Trending?</h2>
+                    <div class="carousel" id="trendingCarousel">
+                        <!-- Carousel items will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Food of the Month -->
+                <div class="food-of-the-month-section">
+                    <h2 class="section-title">Food of the Month</h2>
+                    <div class="food-spotlight-card" id="foodSpotlight">
+                        <!-- Spotlight item will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Recommended This Week -->
+                <div class="recommended-section">
+                    <h2 class="section-title">Recommended This Week</h2>
+                    <div class="vendor-grid" id="recommendedVendors">
+                        <!-- Vendor cards will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Most Popular Restaurants -->
+                <div class="popular-section">
+                    <h2 class="section-title">Most Popular</h2>
+                    <div class="vendor-grid" id="popularVendors">
+                        <!-- Vendor cards will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- My Favorites (New Section) -->
+                <div class="favorites-section">
+                    <h2 class="section-title">My Favorites</h2>
+                    <div class="vendor-grid" id="favoritesGrid">
+                        <!-- Favorite vendor cards will be injected by JS -->
+                    </div>
+                </div>
+
+                <!-- All Vendors List -->
+                <div class="all-vendors-section">
+                    <h2 class="section-title">All Food Stalls & Restaurants</h2>
+                    <div class="filters">
+                        <select id="cityFilter">
+                            <option value="">All Cities</option>
+                        </select>
+                        <select id="cuisineFilter">
+                            <option value="">All Cuisines</option>
+                        </select>
+                        <select id="priceFilter">
+                            <option value="">Any Price</option>
+                            <option value="₹">₹</option>
+                            <option value="₹₹">₹₹</option>
+                            <option value="₹₹₹">₹₹₹</option>
+                        </select>
+                        <select id="sortFilter">
+                            <option value="">Sort By</option>
+                            <option value="rating-desc">Rating High to Low</option>
+                            <option value="rating-asc">Rating Low to High</option>
+                            <option value="price-asc">Price Low to High</option>
+                            <option value="price-desc">Price High to Low</option>
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                            <option value="nearby">Nearest First</option>
+                        </select>
+                        <button id="applyFilters">Apply Filters</button>
+                        <button id="clearFilters">Clear Filters</button>
+                    </div>
+                    <p id="vendorCount">Showing 0 vendors</p>
+                    <div class="vendor-grid" id="allVendors">
+                        <!-- Vendor cards will be injected by JS -->
+                    </div>
+                    <button id="loadMoreVendors" class="btn-load-more">Load More</button>
+                </div>
+            </section>
+
+            <!-- Suggest New Vendor Form -->
+            <section class="suggest-vendor-section">
+                <h2 class="section-title">Know a Great Place? Suggest It!</h2>
+                <form id="suggestVendorForm">
+                    <input type="text" name="vendorName" placeholder="Vendor Name" required>
+                    <input type="text" name="vendorCity" placeholder="City" required>
+                    <input type="text" name="vendorArea" placeholder="Area / Locality" required>
+                    <textarea name="vendorSpecialties" placeholder="What are they famous for? (e.g., Pani Puri, Biryani)" required></textarea>
+                    <button type="submit" class="btn-submit">Suggest Vendor</button>
+                </form>
+                <p id="suggestionStatus"></p>
+            </section>
+        </div>
+    </main>
+
+    <!-- AI Chatbot -->
+    <div id="chatbotContainer" class="chatbot-closed">
+    <button id="chatbotToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+    <div id="chatbotWindow">
+        <div id="chatbotHeader">
+            Foodie Chatbot
+            <button id="closeChatbot">&times;</button>
+        </div>
+        <div id="chatbotMessages"></div>
+        <div id="chatbotInputArea">
+            <input type="text" id="chatbotUserInput" placeholder="Type your message or preference...">
+            <button id="imageUploadBtn" title="Upload Image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 16.5V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9.5M14 22h-4m4 0H9m5 0v-3a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3m8-3H4" />
+                </svg>
+            </button>
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+            <button id="sendChatbotMessage">Send</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Vendor Details Modal -->
+    <div id="vendorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <div id="modalBody">
+                <!-- Vendor details will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll-to-Top Button -->
+    <button id="scrollToTopBtn" title="Go to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Groq AI SDK (placeholder, use actual SDK if available or fetch API) -->
+    <!-- For now, we'll simulate Groq interaction -->
+
+    <!-- Custom JS -->
+    <script src="explore-script.js"></script>
+</body>
+</html>

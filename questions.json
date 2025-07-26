@@ -1,0 +1,32 @@
+[
+    {
+        "key": "greeting",
+        "text": "Hello! I'm your Foodie Chatbot. I can help you find the best street food. What city are you interested in?",
+        "placeholder": "Enter city name (e.g., Mumbai, Delhi)"
+    },
+    {
+        "key": "cuisine",
+        "text": "Great! What type of cuisine are you in the mood for?",
+        "options": ["North Indian", "South Indian", "Chinese", "Street Food", "Mughlai", "Continental", "Italian", "Fast Food", "Any"]
+    },
+    {
+        "key": "price",
+        "text": "What's your preferred price range?",
+        "options": ["₹ (Budget)", "₹₹ (Mid-range)", "₹₹₹ (Premium)", "Any"]
+    },
+    {
+        "key": "foodType",
+        "text": "Are you looking for vegetarian, non-vegetarian, or options for both?",
+        "options": ["Vegetarian", "Non-Vegetarian", "Both"]
+    },
+    {
+        "key": "specificDish",
+        "text": "Is there any specific dish you're craving (e.g., Biryani, Dosa, Vada Pav, Pizza)? (Optional - press Enter to skip)",
+        "placeholder": "Enter dish name or skip"
+    },
+    {
+        "key": "ambiance",
+        "text": "What kind of ambiance are you looking for?",
+        "options": ["Casual Street Stall", "Quick Bite Cafe", "Family Restaurant", "Fine Dining", "Doesn't Matter"]
+    }
+]
